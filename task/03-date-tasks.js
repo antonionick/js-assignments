@@ -22,7 +22,7 @@
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
 function parseDataFromRfc2822(value) {
-   throw new Error('Not implemented');
+	return new Date(value);
 }
 
 /**
@@ -37,7 +37,7 @@ function parseDataFromRfc2822(value) {
  *    '2016-01-19T08:07:37Z' => Date()
  */
 function parseDataFromIso8601(value) {
-   throw new Error('Not implemented');
+	return new Date(value);
 }
 
 
@@ -56,7 +56,8 @@ function parseDataFromIso8601(value) {
  *    Date(2015,1,1)    => false
  */
 function isLeapYear(date) {
-   throw new Error('Not implemented');
+	const year = date.getFullYear();
+	return year % 400 === 0 || year % 4 === 0 && year % 100 !== 0;
 }
 
 
@@ -76,14 +77,32 @@ function isLeapYear(date) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
 function timeSpanToString(startDate, endDate) {
-   throw new Error('Not implemented');
+	let milsec = endDate - startDate;
+
+	let hours = Math.floor(milsec / 1000 / 60 / 60);
+	milsec -= hours * 60 * 60 * 1000;
+	hours = checkFormat(hours);
+
+	let min = Math.floor(milsec / 1000 / 60);
+	milsec -= min * 60 * 1000;
+	min = checkFormat(min);
+
+	let sec = Math.floor(milsec / 1000);
+	milsec -= sec * 1000;
+	sec = checkFormat(sec);
+
+
+	return `${hours}:${min}:${sec}.${(milsec + "").length < 3 ? milsec + "0".repeat(3 - (milsec + "").length) : milsec}`;
 }
 
+function checkFormat(value) {
+	return value < 10 ? "0" + value : value;
+}
 
 /**
  * Returns the angle (in radians) between the hands of an analog clock for the specified Greenwich time.
  * If you have problem with solution please read: https://en.wikipedia.org/wiki/Clock_angle_problem
- * 
+ *
  * @param {date} date
  * @return {number}
  *
@@ -94,14 +113,22 @@ function timeSpanToString(startDate, endDate) {
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
 function angleBetweenClockHands(date) {
-    throw new Error('Not implemented');
+	const hours = date.getUTCHours() > 12 ? date.getUTCHours() - 12 : date.getUTCHours(),
+		minutes =date.getUTCMinutes(),
+		angle_h = 0.5 * (hours * 60 + minutes),
+		angle_m = 6 * minutes;
+
+	let result = Math.abs(angle_h - angle_m);
+	while (result > 180) {
+		result -= 180;
+	}
+	return result * (Math.PI / 180);
 }
 
-
 module.exports = {
-    parseDataFromRfc2822: parseDataFromRfc2822,
-    parseDataFromIso8601: parseDataFromIso8601,
-    isLeapYear: isLeapYear,
-    timeSpanToString: timeSpanToString,
-    angleBetweenClockHands: angleBetweenClockHands
+	parseDataFromRfc2822: parseDataFromRfc2822,
+	parseDataFromIso8601: parseDataFromIso8601,
+	isLeapYear: isLeapYear,
+	timeSpanToString: timeSpanToString,
+	angleBetweenClockHands: angleBetweenClockHands
 };
