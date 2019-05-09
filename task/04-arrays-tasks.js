@@ -437,7 +437,22 @@ function toStringList(arr) {
  *      { country: 'Russia',  city: 'Saint Petersburg' }
  */
 function sortCitiesArray(arr) {
-	throw new Error('Not implemented');
+	return arr.sort((a, b) => {
+		if (a.country === b.country) {
+			if (a.city < b.city) {
+				return -1;
+			} else if (a.city > b.city) {
+				return 1;
+			}
+		} else {
+			if (a.country < b.country) {
+				return -1;
+			} else if (a.country > b.country) {
+				return 1;
+			}
+		}
+		return 0;
+	});
 }
 
 /**
@@ -461,7 +476,7 @@ function sortCitiesArray(arr) {
 function getIdentityMatrix(n) {
 	const arr = new Array(n).fill(new Array(n).fill(0));
 	return arr.map((item, index) =>
-		item.map((item, indexNested)=> index === indexNested ? 1 : 0))
+		item.map((item, indexNested) => index === indexNested ? 1 : 0))
 }
 
 /**
@@ -495,7 +510,7 @@ function getIntervalArray(start, end) {
  */
 function distinct(arr) {
 	const result = [];
-	arr.filter(item => ~result.indexOf(item) ? false : result.push(item))
+	arr.filter(item => ~result.indexOf(item) ? false : result.push(item));
 	return result;
 }
 
@@ -530,7 +545,21 @@ function distinct(arr) {
  *   }
  */
 function group(array, keySelector, valueSelector) {
-	throw new Error('Not implemented');
+	return array.reduce((result, item) => {
+		let contains = false;
+
+		result.map(elem => {
+			if (elem[0] === keySelector(item)) {
+				elem[1].push(valueSelector(item));
+				contains = true;
+			}
+		});
+
+		if (!contains) {
+			result.push([keySelector(item), [valueSelector(item)]]);
+		}
+		return result;
+	}, []);
 }
 
 
@@ -565,7 +594,7 @@ function selectMany(arr, childrenSelector) {
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
 function getElementByIndexes(arr, indexes) {
-	throw new Error('Not implemented');
+	return indexes.reduce((result, item) => result[item], arr);
 }
 
 
