@@ -255,7 +255,7 @@ function searchLess(a, b) {
  * 'noon' => 'noon'
  */
 function reverseString(str) {
-	throw new Error('Not implemented');
+	return str.split("").reverse().join("");
 }
 
 
