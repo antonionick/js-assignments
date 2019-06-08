@@ -368,10 +368,22 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true 
  */
 function isBracketsBalanced(str) {
-	throw new Error('Not implemented');
+	const open = ["[", "{", "(", "<"],
+		close = ["]", "}", ")", ">"],
+		last = [];
+
+	for (let i = 0; i < str.length; i++) {
+		if (~open.indexOf(str[i])) {
+			last.push(str[i]);
+		} else {
+			if (i === 0) return false;
+			if (open[close.indexOf(str[i])] !== last[last.length - 1]) return false;
+			last.pop();
+		}
+	}
+
+	return last.length === 0;
 }
-
-
 /**
  * Returns the human readable string of time period specified by the start and end time.
  * The result string should be constrcuted using the folliwing rules:
