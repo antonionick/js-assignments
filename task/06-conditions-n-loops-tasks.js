@@ -545,7 +545,7 @@ function toNaryString(num, n) {
 function getCommonDirectoryPath(pathes) {
 	return pathes.reduce((sum, item) => {
 		let result = "",
-		repository = "";
+			repository = "";
 
 		for (let i = 0; i < item.length; i++) {
 			if (sum[i] === item[i]) {
@@ -593,7 +593,6 @@ function getMatrixProduct(m1, m2) {
 					return sum + (item * m2[index][i]);
 				}, 0)
 			);
-			console.log(result);
 		}
 
 		return result;
@@ -632,7 +631,78 @@ function getMatrixProduct(m1, m2) {
  *
  */
 function evaluateTicTacToePosition(position) {
-	throw new Error('Not implemented');
+	let result;
+	result = checkHorisontal();
+	if (!result) {
+		result = checkVertically();
+	}
+	if (!result) {
+		result = checkDiagonal();
+	}
+
+	return result;
+
+	function checkHorisontal() {
+		let win = true;
+
+		for (let i = 0; i < position.length; i++) {
+			const last = position[i][0];
+			if (!last) continue;
+			win = true;
+
+			for (let j = 1; j < position.length; j++) {
+				if (last !== position[i][j]) {
+					win = false;
+					break;
+				}
+			}
+
+			if (win) return last;
+		}
+	}
+
+	function checkVertically() {
+		let win = true;
+
+		for (let i = 0; i < position.length; i++) {
+			const last = position[0][i];
+			win = true;
+
+			for (let j = 1; j < position.length; j++) {
+				if (last !== position[j][i]) {
+					win = false;
+					break;
+				}
+			}
+
+			if (win) return last;
+		}
+	}
+
+	function checkDiagonal() {
+		let win = true;
+		let last = position[0][0];
+
+		for (let i = 1; i < position.length; i++) {
+			if (last !== position[i][i]) {
+				win = false;
+				break;
+			}
+		}
+		if (win) return last;
+
+		win = true;
+		last = position[0][2];
+
+		for (let i = 1, j = 1; i < position.length; i++, j--) {
+			if (last !== position[i][j]) {
+				win = false;
+				break;
+			}
+		}
+
+		if (win) return last;
+	}
 }
 
 
