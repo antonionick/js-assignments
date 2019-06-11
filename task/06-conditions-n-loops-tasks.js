@@ -421,7 +421,7 @@ function timespanToHumanString(startDate, endDate) {
 	divisionTime(1000);
 	let result = "";
 
-	minues();
+	minutes();
 	hours();
 	days();
 	month();
@@ -429,7 +429,7 @@ function timespanToHumanString(startDate, endDate) {
 
 	return result;
 
-	function minues() {
+	function minutes() {
 		if (time <= 45) {
 			result = "a few seconds ago";
 		} else if (time > 45 && time <= 90) {
@@ -525,7 +525,8 @@ function timespanToHumanString(startDate, endDate) {
  *    365, 10 => '365'
  */
 function toNaryString(num, n) {
-	throw new Error('Not implemented');
+	if (n > 10) return;
+	return num.toString(n);
 }
 
 
