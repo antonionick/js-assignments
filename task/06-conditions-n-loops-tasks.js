@@ -384,6 +384,7 @@ function isBracketsBalanced(str) {
 
 	return last.length === 0;
 }
+
 /**
  * Returns the human readable string of time period specified by the start and end time.
  * The result string should be constrcuted using the folliwing rules:
@@ -416,9 +417,93 @@ function isBracketsBalanced(str) {
  *
  */
 function timespanToHumanString(startDate, endDate) {
-	throw new Error('Not implemented');
-}
+	let time = endDate - startDate;
+	divisionTime(1000);
+	let result = "";
 
+	minues();
+	hours();
+	days();
+	month();
+	years();
+
+	return result;
+
+	function minues() {
+		if (time <= 45) {
+			result = "a few seconds ago";
+		} else if (time > 45 && time <= 90) {
+			result = "a minute ago";
+		}
+		// minutes
+		divisionTime(60);
+		if (time > 1.5 && time <= 45) {
+			if (time < 2) time = 2;
+			result = checkTime() + " minutes ago";
+		}
+	}
+
+	function hours() {
+		if (result) return;
+		if (time > 45 && time <= 90) {
+			result = "an hour ago";
+		}
+		// hours
+		divisionTime(60);
+		if (time > 1.5 && time <= 22) {
+			if (time < 2) time = 2;
+			result = checkTime() + " hours ago";
+		}
+	}
+
+	function days() {
+		if (result) return;
+		if (time > 22 && time <= 36) {
+			result = "a day ago";
+		}
+		// days
+		divisionTime(24);
+		if (time > 1.5 && time <= 25) {
+			if (time < 2) time = 2;
+			result = checkTime() + " days ago";
+		}
+	}
+
+	function month() {
+		if (result) return;
+		if (time > 25 && time <= 45) {
+			result = "a month ago";
+		}
+		// month
+		divisionTime(30);
+		if (time > 1.5 && time < 11.5) {
+			if (time < 2) time = 2;
+			result = checkTime() + " months ago";
+		}
+	}
+
+	function years() {
+		if (result) return;
+		if (time > 11 && time <= 18) {
+			result = "a year ago";
+		}
+		// years
+		divisionTime(12);
+		if (time > 1.5) {
+			if (time < 2) time = 2;
+			result = checkTime() + " years ago";
+		}
+	}
+
+	function divisionTime(divider) {
+		time /= divider;
+	}
+
+	function checkTime() {
+		const moreTime = Math.ceil(time);
+		return moreTime - time >= 0.5 ? Math.floor(time) : moreTime;
+	}
+}
 
 /**
  * Returns the string with n-ary (binary, ternary, etc, where n<=10) representation of specified number.
