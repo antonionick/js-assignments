@@ -27,7 +27,7 @@
  */
 function getComposition(f, g) {
 	return function (x) {
-    return f(g(x));
+		return f(g(x));
 	}
 }
 
@@ -129,7 +129,8 @@ function retry(func, attempts) {
 		for (let i = 0; i < attempts; i++) {
 			try {
 				return func();
-			} catch (e) { }
+			} catch (e) {
+			}
 		}
 	}
 }
@@ -159,7 +160,31 @@ function retry(func, attempts) {
  *
  */
 function logger(func, logFunc) {
-	throw new Error('Not implemented');
+	return function () {
+		const stringArguments = getStringArguments(...arguments);
+		logFunc(func.name + "(" + stringArguments + ") starts");
+
+		const result = func(...arguments);
+		logFunc(func.name + "(" + stringArguments + ") ends");
+
+		return result;
+
+		function getStringArguments() {
+			return Array.prototype.reduce.call(arguments, (result, item) => {
+				let stringItem = item;
+
+				if (Array.isArray(item)) stringItem = getStringArrayArguments(item);
+
+				return result + stringItem + ",";
+			}, "").slice(0, -1);
+		}
+
+		function getStringArrayArguments(array) {
+			let result = getStringArguments(...array);
+			result = result.split(",").map(item => isNaN(+item)? '"'+ item +'"' : item).join(",");
+			return "[" + result + "]";
+		}
+	}
 }
 
 
