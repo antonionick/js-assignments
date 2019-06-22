@@ -202,7 +202,10 @@ function logger(func, logFunc) {
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
 function partialUsingArguments(fn) {
-	throw new Error('Not implemented');
+	const variables = Array.prototype.reduce.call(Array.prototype.slice.call(arguments, 1), (sum, item) => sum + item, "");
+	return function () {
+		return variables + Array.prototype.reduce.call(arguments, (sum, item) => sum + item, "");
+	}
 }
 
 
