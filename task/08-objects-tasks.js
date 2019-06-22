@@ -111,34 +111,125 @@ function fromJSON(proto, json) {
  *  For more examples see unit tests.
  */
 
-const cssSelectorBuilder = {
+class MyCssSelectorBuilder {
+	constructor() {
+		this._element = [];
+		this._id = [];
+		this._class = [];
+		this._attr = [];
+		this._pseudoClass = [];
+		this._pseudoElement = [];
+		this._lastCall = "";
+	}
 
+	element(value) {
+		if (this._element.length) {
+			throw new Error("Element, id and pseudo-element should not occur more then one time inside the selector");
+		}
+		this._checkFlow("element");
+		this._element.push(value);
+		this._lastCall = "element";
+		return this;
+	}
+
+	id(value) {
+		if (this._id.length) {
+			throw new Error("Element, id and pseudo-element should not occur more then one time inside the selector");
+		}
+		this._checkFlow("id");
+		this._id.push("#" + value);
+		this._lastCall = "id";
+		return this;
+	}
+
+	class(value) {
+		this._checkFlow("class");
+		this._class.push("." + value);
+		this._lastCall = "class";
+		return this;
+	}
+
+	attr(value) {
+		this._checkFlow("attribute");
+		this._attr.push("[" + value + "]");
+		this._lastCall = "attribute";
+		return this;
+	}
+
+	pseudoClass(value) {
+		this._checkFlow("pseudo-class");
+		this._pseudoClass.push(":" + value);
+		this._lastCall = "pseudo-class";
+		return this;
+	}
+
+	pseudoElement(value) {
+		if (this._pseudoElement.length) {
+			throw new Error("Element, id and pseudo-element should not occur more then one time inside the selector");
+		}
+		this._checkFlow("pseudo-element");
+		this._pseudoElement.push("::" + value);
+		this._lastCall = "pseudo-element";
+		return this;
+	}
+
+	stringify() {
+		const items = [this._element, this._id, this._class, this._attr, this._pseudoClass, this._pseudoElement];
+		return items.reduce((result, item) => {
+			return result + item.reduce((result, item) => result + item, "");
+		}, "");
+	}
+
+	_checkFlow(current) {
+		if (!this._lastCall) return;
+		const flow = ["element", "id", "class", "attribute", "pseudo-class", "pseudo-element"];
+		if (flow.indexOf(current) < flow.indexOf(this._lastCall)) {
+			throw new Error("Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class," +
+				" pseudo-element");
+		}
+	}
+}
+
+class MyCssCombine {
+	constructor(selector1, combinator, selector2) {
+		this._selector1 = selector1.stringify();
+		this._combinator = combinator;
+		this._selector2 = selector2.stringify();
+		return this;
+	}
+
+	stringify() {
+		return this._selector1 + " " + this._combinator + " " + this._selector2;
+	}
+}
+
+const cssSelectorBuilder = {
 	element: function (value) {
-		throw new Error('Not implemented');
+		return new MyCssSelectorBuilder().element(value);
 	},
 
 	id: function (value) {
-		throw new Error('Not implemented');
+		return new MyCssSelectorBuilder().id(value);
 	},
 
 	class: function (value) {
-		throw new Error('Not implemented');
+		return new MyCssSelectorBuilder().class(value);
 	},
 
 	attr: function (value) {
-		throw new Error('Not implemented');
+		return new MyCssSelectorBuilder().attr(value);
 	},
 
 	pseudoClass: function (value) {
-		throw new Error('Not implemented');
+		return new MyCssSelectorBuilder().pseudoClass(value);
 	},
 
 	pseudoElement: function (value) {
-		throw new Error('Not implemented');
+		return new MyCssSelectorBuilder().pseudoElement(value);
 	},
 
 	combine: function (selector1, combinator, selector2) {
-		throw new Error('Not implemented');
+		return new MyCssCombine(...arguments);
 	},
 };
 
