@@ -31,7 +31,7 @@
  */
 function getFizzBuzz(num) {
 	let result = ``;
-	if (num % 3 === 0) result += `Fizz`;
+	if (num % 3 === 0) result = `Fizz`;
 	if (num % 5 === 0) result += `Buzz`;
 	return result === `` ? num : result;
 }
@@ -241,10 +241,8 @@ function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
 }
 
 function searchLess(a, b) {
-	if (a > b) {
-		const c = a;
-		a = b;
-		b = c;
+	if (b < a) {
+		[a, b] = [b, a];
 	}
 
 	return [a, b];
@@ -281,8 +279,7 @@ function reverseString(str) {
  *   34143 => 34143
  */
 function reverseInteger(num) {
-	const str = num + "";
-	return +str.split("").reverse().join("");
+	return +num.toString().split("").reverse().join("");
 }
 
 
@@ -631,8 +628,7 @@ function getMatrixProduct(m1, m2) {
  *
  */
 function evaluateTicTacToePosition(position) {
-	let result;
-	result = checkHorisontal();
+	let result = checkHorisontal();
 	if (!result) {
 		result = checkVertically();
 	}
@@ -680,8 +676,8 @@ function evaluateTicTacToePosition(position) {
 	}
 
 	function checkDiagonal() {
-		let win = true;
-		let last = position[0][0];
+		let win = true,
+			last = position[0][0];
 
 		for (let i = 1; i < position.length; i++) {
 			if (last !== position[i][i]) {

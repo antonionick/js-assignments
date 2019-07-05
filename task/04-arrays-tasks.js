@@ -38,8 +38,7 @@ function findElement(arr, value) {
  *    5 => [ 1, 3, 5, 7, 9 ]
  */
 function generateOdds(len) {
-	const arr = new Array(len);
-	arr.fill(0);
+	const arr = Array.apply(null, {length: len});
 	let current = 1;
 	return arr.map((item, index) => {
 		arr[index] = current;
@@ -61,7 +60,7 @@ function generateOdds(len) {
  *    [] => []
  */
 function doubleArray(arr) {
-	return [].concat(arr, arr);
+	return Array.prototype.concat(arr, arr);
 }
 
 
@@ -444,13 +443,11 @@ function sortCitiesArray(arr) {
 			} else if (a.city > b.city) {
 				return 1;
 			}
-		} else {
-			if (a.country < b.country) {
+		} else if (a.country < b.country) {
 				return -1;
 			} else if (a.country > b.country) {
 				return 1;
 			}
-		}
 		return 0;
 	});
 }
@@ -493,8 +490,7 @@ function getIdentityMatrix(n) {
  *     3, 3   => [ 3 ]
  */
 function getIntervalArray(start, end) {
-	const arr = new Array(end - start + 1).fill(0);
-	return arr.map(() => start++)
+	return Array.apply(null, {length: end - start + 1}).map(() => start++)
 }
 
 /**
@@ -618,7 +614,8 @@ function getElementByIndexes(arr, indexes) {
  */
 function swapHeadAndTail(arr) {
 	const m = Math.floor(arr.length / 2);
-	return arr.length % 2 === 0 ? [].concat(arr.slice(m), arr.slice(0, m)) : [].concat(arr.slice(m + 1), arr[m], arr.slice(0, m));
+	return arr.length % 2 === 0 ? Array.prototype.concat(arr.slice(m), arr.slice(0, m)) :
+		Array.prototype.concat(arr.slice(m + 1), arr[m], arr.slice(0, m));
 }
 
 
