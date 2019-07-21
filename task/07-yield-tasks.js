@@ -96,7 +96,38 @@ function* getFibonacciSequence() {
  *
  */
 function* depthTraversalTree(root) {
-  throw new Error('Not implemented');
+  const parents = [];
+  let current = root,
+    i = 0,
+    wasElement = false;
+
+  do {
+    if (!wasElement) {
+      yield current;
+    }
+
+    if (current.children && i < current.children.length) {
+      parents.push({
+        current,
+        i
+      });
+      current = current.children[i];
+      wasElement = false;
+      i = 0;
+    } else if (!parents.length) {
+      break
+    } else {
+      ({
+        current,
+        i
+      } = parents.pop());
+      ++i;
+      wasElement = true;
+    }
+  }
+  while (true);
+
+  return;
 }
 
 /**
