@@ -152,7 +152,25 @@ function* depthTraversalTree(root) {
  *
  */
 function* breadthTraversalTree(root) {
-  throw new Error('Not implemented');
+  let current = Array(root),
+    nextLayer = [],
+    i = 0;
+
+  while (current.length) {
+    yield current[i];
+    if (current[i].children) {
+      for (let j = 0; j < current[i].children.length; j++) {
+        nextLayer.push(current[i].children[j]);
+      }
+    }
+    if (++i >= current.length) {
+      current = nextLayer;
+      nextLayer = [];
+      i = 0;
+    }
+  }
+
+  return;
 }
 
 /**
