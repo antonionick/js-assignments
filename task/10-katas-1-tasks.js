@@ -17,10 +17,13 @@
  *  ]
  */
 function createCompassPoints() {
-    throw new Error('Not implemented');
-    var sides = ['N','E','S','W'];  // use array of cardinal directions only!
+  const abbreviations = [`N`, `NbE`, `NNE`, `NEbN`, `NE`, `NEbE`, `ENE`, `EbN`, `E`, `EbS`, `ESE`, `SEbE`, `SE`, `SEbS`, `SSE`, `SbE`, `S`, `SbW`, `SSW`, `SWbS`, `SW`, `SWbW`, `WSW`, `WbS`, `W`, `WbN`, `WNW`, `NWbW`, `NW`, `NWbN`, `NNW`, `NbW`];
+  let azimuth = -11.25;
+  return abbreviations.map((abbreviation) => {
+    azimuth += 11.25;
+    return {abbreviation, azimuth}
+  })
 }
-
 
 /**
  * Expand the braces of the specified string.
@@ -56,9 +59,8 @@ function createCompassPoints() {
  *   'nothing to do' => 'nothing to do'
  */
 function* expandBraces(str) {
-    throw new Error('Not implemented');
+  throw new Error('Not implemented');
 }
-
 
 /**
  * Returns the ZigZag matrix
@@ -88,9 +90,8 @@ function* expandBraces(str) {
  *
  */
 function getZigZagMatrix(n) {
-    throw new Error('Not implemented');
+  throw new Error('Not implemented');
 }
-
 
 /**
  * Returns true if specified subset of dominoes can be placed in a row accroding to the game rules.
@@ -113,9 +114,8 @@ function getZigZagMatrix(n) {
  *
  */
 function canDominoesMakeRow(dominoes) {
-    throw new Error('Not implemented');
+  throw new Error('Not implemented');
 }
-
 
 /**
  * Returns the string expression of the specified ordered list of integers.
@@ -137,13 +137,13 @@ function canDominoesMakeRow(dominoes) {
  * [ 1, 2, 4, 5]          => '1,2,4,5'
  */
 function extractRanges(nums) {
-    throw new Error('Not implemented');
+  throw new Error('Not implemented');
 }
 
 module.exports = {
-    createCompassPoints : createCompassPoints,
-    expandBraces : expandBraces,
-    getZigZagMatrix : getZigZagMatrix,
-    canDominoesMakeRow : canDominoesMakeRow,
-    extractRanges : extractRanges
+  createCompassPoints: createCompassPoints,
+  expandBraces: expandBraces,
+  getZigZagMatrix: getZigZagMatrix,
+  canDominoesMakeRow: canDominoesMakeRow,
+  extractRanges: extractRanges
 };
